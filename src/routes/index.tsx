@@ -89,11 +89,13 @@ function PapelPicado() {
             d="M0 0h60v58l-5 6-5-6-5 6-5-6-5 6-5-6-5 6-5-6-5 6-5-6-5 6z"
             fill={picadoColors[i % picadoColors.length]}
           />
-          <circle cx="30" cy="22" r="8" fill="var(--background)" />
-          <circle cx="26" cy="20" r="2" fill={picadoColors[i % 5]} />
-          <circle cx="34" cy="20" r="2" fill={picadoColors[i % 5]} />
-          <path d="M10 42l5-5 5 5-5 5zM40 42l5-5 5 5-5 5zM25 44h10v4H25z" fill="var(--background)" />
-          <path d="M8 8h6v6H8zM46 8h6v6h-6z" fill="var(--background)" />
+          {/* cat face cut-out */}
+          <path d="M19 14l4 7a10 10 0 0 1 14 0l4-7 1 12a11 11 0 1 1-24 0z" fill="var(--background)" />
+          <circle cx="26" cy="27" r="1.8" fill={picadoColors[i % 5]} />
+          <circle cx="34" cy="27" r="1.8" fill={picadoColors[i % 5]} />
+          <path d="M28.5 31h3l-1.5 2z" fill={picadoColors[i % 5]} />
+          <path d="M8 46c3-4 7-4 10 0M42 46c3-4 7-4 10 0" stroke="var(--background)" strokeWidth="2.5" fill="none" />
+          <path d="M8 8h5v5H8zM47 8h5v5h-5z" fill="var(--background)" />
         </svg>
       ))}
     </div>

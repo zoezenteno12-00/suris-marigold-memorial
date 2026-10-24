@@ -102,3 +102,12 @@ html, body, button, a, * {
 
 @keyframes rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
 @utility rise { animation: rise 1.2s ease-out both; }
+
+@keyframes broom-fly { from { transform: rotate(0deg) translateX(110px) rotate(0deg); } to { transform: rotate(360deg) translateX(110px) rotate(-360deg); } }
+@keyframes broom-tilt { 0%,100% { transform: rotate(-12deg); } 50% { transform: rotate(12deg); } }
+@utility broom-orbit { animation: broom-fly 4s linear infinite; }
+@utility broom-spin { animation: broom-tilt 1s ease-in-out infinite; }
+@keyframes heart-up { from { opacity: 1; transform: translate(-50%, 0) scale(.6); } to { opacity: 0; transform: translate(-50%, -140px) scale(1.4); } }
+@utility heart-float { animation: heart-up 1.4s ease-out forwards; }
+@keyframes drop-in { from { opacity: 0; transform: translateY(-80px) rotate(-30deg); } to { opacity: 1; transform: none; } }
+@utility gift-drop { animation: drop-in .7s cubic-bezier(.34,1.56,.64,1) both; }

@@ -89,11 +89,13 @@ function PapelPicado() {
             d="M0 0h60v58l-5 6-5-6-5 6-5-6-5 6-5-6-5 6-5-6-5 6-5-6-5 6z"
             fill={picadoColors[i % picadoColors.length]}
           />
-          <circle cx="30" cy="22" r="8" fill="var(--background)" />
-          <circle cx="26" cy="20" r="2" fill={picadoColors[i % 5]} />
-          <circle cx="34" cy="20" r="2" fill={picadoColors[i % 5]} />
-          <path d="M10 42l5-5 5 5-5 5zM40 42l5-5 5 5-5 5zM25 44h10v4H25z" fill="var(--background)" />
-          <path d="M8 8h6v6H8zM46 8h6v6h-6z" fill="var(--background)" />
+          {/* cat face cut-out */}
+          <path d="M19 14l4 7a10 10 0 0 1 14 0l4-7 1 12a11 11 0 1 1-24 0z" fill="var(--background)" />
+          <circle cx="26" cy="27" r="1.8" fill={picadoColors[i % 5]} />
+          <circle cx="34" cy="27" r="1.8" fill={picadoColors[i % 5]} />
+          <path d="M28.5 31h3l-1.5 2z" fill={picadoColors[i % 5]} />
+          <path d="M8 46c3-4 7-4 10 0M42 46c3-4 7-4 10 0" stroke="var(--background)" strokeWidth="2.5" fill="none" />
+          <path d="M8 8h5v5H8zM47 8h5v5h-5z" fill="var(--background)" />
         </svg>
       ))}
     </div>
@@ -137,20 +139,119 @@ function Splash({ onEnter }: { onEnter: () => void }) {
   return (
     <div className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-background px-6 text-center">
       <p className="font-display text-5xl text-marigold md:text-7xl">Para Suri</p>
-      <p className="max-w-sm text-muted-foreground">Toca la naricita para entrar al altar</p>
+      <p className="max-w-sm text-muted-foreground">Atrapa a la gatita en su escoba para entrar al altar</p>
+      <div className="relative flex h-72 w-72 items-center justify-center">
+        <div className="absolute inset-6 rounded-full border-2 border-dashed border-marigold/40" />
+        <Marigold size={70} />
+        <div className="broom-orbit absolute">
+          <button onClick={onEnter} aria-label="Entrar al altar" className="grow broom-spin block">
+            <BroomCat />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BroomCat() {
+  return (
+    <svg width="130" height="110" viewBox="0 0 130 110">
+      {/* broom */}
+      <line x1="5" y1="80" x2="95" y2="72" stroke="oklch(0.5 0.08 60)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M92 64l34-8-4 14 4 14-34-6z" fill="var(--marigold)" />
+      <path d="M100 66l22-4M100 72h24M100 78l22 4" stroke="oklch(0.55 0.12 60)" strokeWidth="1.5" />
+      {/* tail */}
+      <path d="M78 66c18-6 22-26 12-34" stroke="oklch(0.62 0.13 60)" strokeWidth="7" fill="none" strokeLinecap="round" />
+      {/* body */}
+      <ellipse cx="58" cy="64" rx="24" ry="14" fill="oklch(0.68 0.13 60)" />
+      <path d="M46 54l3 12M56 51l2 13M66 52l-1 12" stroke="oklch(0.42 0.09 50)" strokeWidth="3" strokeLinecap="round" />
+      {/* head */}
+      <circle cx="32" cy="48" r="16" fill="oklch(0.68 0.13 60)" />
+      <path d="M20 38l-2-16 12 8zM44 38l2-16-12 8z" fill="oklch(0.68 0.13 60)" />
+      <path d="M22 30l-1-5 5 3zM42 30l1-5-5 3z" fill="var(--pink)" />
+      <path d="M28 34l1 6M32 33v6M36 34l-1 6" stroke="oklch(0.42 0.09 50)" strokeWidth="2.2" strokeLinecap="round" />
+      <ellipse cx="26" cy="47" rx="3" ry="4" fill="oklch(0.55 0.15 140)" />
+      <ellipse cx="38" cy="47" rx="3" ry="4" fill="oklch(0.55 0.15 140)" />
+      <ellipse cx="26" cy="47" rx="1" ry="3" fill="oklch(0.15 0 0)" />
+      <ellipse cx="38" cy="47" rx="1" ry="3" fill="oklch(0.15 0 0)" />
+      <path d="M30 53l2 2 2-2z" fill="var(--pink)" />
+      <path d="M18 54h-10M18 57l-9 3M46 54h10M46 57l9 3" stroke="var(--foreground)" strokeWidth="1" />
+      {/* witch hat */}
+      <path d="M18 30l14-26 12 24z" fill="var(--velvet)" />
+      <ellipse cx="31" cy="30" rx="18" ry="4" fill="var(--velvet)" />
+      <path d="M22 26h20" stroke="var(--marigold)" strokeWidth="3" />
+      {/* paws */}
+      <circle cx="44" cy="76" r="5" fill="oklch(0.68 0.13 60)" />
+      <circle cx="68" cy="76" r="5" fill="oklch(0.68 0.13 60)" />
+    </svg>
+  );
+}
+
+function PetSuri() {
+  const [hearts, setHearts] = useState<{ id: number; x: number; e: string }[]>([]);
+  const [pets, setPets] = useState(0);
+  const pet = (e: import("react").MouseEvent<HTMLButtonElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const id = Date.now() + Math.random();
+    const emoji: string = ["💜", "🧡", "😻", "✨"][Math.floor(Math.random() * 4)] ?? "💜";
+    setHearts((h) => [...h, { id, x: e.clientX - r.left, e: emoji }]);
+    setPets((p) => p + 1);
+    setTimeout(() => setHearts((h) => h.filter((x) => x.id !== id)), 1400);
+  };
+  return (
+    <div className="relative z-10 mt-8 flex flex-col items-center">
       <button
-        onClick={onEnter}
-        aria-label="Entrar al altar"
-        className="nose-pulse grow relative"
+        onClick={pet}
+        onMouseMove={(e) => Math.random() < 0.06 && pet(e)}
+        aria-label="Acariciar a Suri"
+        className="grow relative rounded-full border-8 border-marigold p-2 shadow-[0_0_60px_var(--marigold)]"
       >
-        <svg width="180" height="150" viewBox="0 0 180 150">
-          <path d="M90 140c-30 0-80-30-80-80C10 25 50 10 90 10s80 15 80 50c0 50-50 80-80 80z" fill="var(--velvet)" />
-          <path d="M90 128c-24 0-66-24-66-66C24 34 56 22 90 22s66 12 66 40c0 42-42 66-66 66z" fill="oklch(0.18 0.03 300)" />
-          <ellipse cx="62" cy="70" rx="12" ry="18" fill="var(--background)" transform="rotate(-20 62 70)" />
-          <ellipse cx="118" cy="70" rx="12" ry="18" fill="var(--background)" transform="rotate(20 118 70)" />
-          <ellipse cx="70" cy="40" rx="20" ry="8" fill="var(--foreground)" opacity=".25" />
-        </svg>
+        <img src={suri.url} alt="Suri, mi gata" className="h-56 w-56 rounded-full object-cover md:h-72 md:w-72" />
+        {hearts.map((h) => (
+          <span key={h.id} className="heart-float pointer-events-none absolute top-1/3 text-3xl" style={{ left: h.x }}>
+            {h.e}
+          </span>
+        ))}
       </button>
+      <p className="mt-4 text-sm text-muted-foreground">
+        {pets === 0 ? "Pasa la mano o haz clic para acariciarla" : `Prrrr… ${pets} caricias para Suri`}
+      </p>
+    </div>
+  );
+}
+
+const giftOptions = [
+  { e: "🐟", label: "Pescadito" },
+  { e: "🥫", label: "Latita" },
+  { e: "🥛", label: "Lechita" },
+  { e: "🧶", label: "Estambre" },
+  { e: "🐭", label: "Ratoncito" },
+  { e: "🪶", label: "Plumita" },
+];
+
+function Gifts() {
+  const [gifts, setGifts] = useState<{ id: number; e: string }[]>([]);
+  return (
+    <div className="mt-12 text-center">
+      <p className="font-display text-3xl text-marigold">Déjale un regalito</p>
+      <div className="mt-4 flex flex-wrap justify-center gap-3">
+        {giftOptions.map((g) => (
+          <button
+            key={g.label}
+            onClick={() => setGifts((x) => [...x, { id: Date.now() + Math.random(), e: g.e }])}
+            className="grow flex flex-col items-center rounded-2xl border-2 border-velvet bg-muted px-4 py-2"
+          >
+            <span className="text-3xl">{g.e}</span>
+            <span className="text-xs text-muted-foreground">{g.label}</span>
+          </button>
+        ))}
+      </div>
+      <div className="mt-6 flex min-h-20 flex-wrap items-end justify-center gap-2 rounded-2xl border-b-8 border-marigold bg-secondary/40 p-4">
+        {gifts.length === 0 && <span className="text-sm text-muted-foreground">Aquí aparecerán tus ofrendas</span>}
+        {gifts.map((g) => (
+          <span key={g.id} className="gift-drop grow text-4xl">{g.e}</span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -180,9 +281,7 @@ function Index() {
             <p className="relative z-10 mt-2 tracking-[0.3em] text-muted-foreground uppercase text-sm">
               Siempre en nuestro corazón
             </p>
-            <div className="grow relative z-10 mt-8 rounded-full border-8 border-marigold p-2 shadow-[0_0_60px_var(--marigold)]">
-              <img src={suri.url} alt="Suri, mi gata" className="h-56 w-56 rounded-full object-cover md:h-72 md:w-72" />
-            </div>
+            <PetSuri />
           </section>
 
           <section className="mx-auto max-w-5xl px-4 pb-24">
@@ -204,6 +303,7 @@ function Index() {
                 <Candle delay={0.6} />
                 <Candle delay={0.15} />
               </div>
+              <Gifts />
               <div className="mt-10 flex flex-wrap justify-center gap-2">
                 {Array.from({ length: 16 }).map((_, i) => (
                   <div key={i} className="grow">

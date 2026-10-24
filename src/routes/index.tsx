@@ -190,10 +190,10 @@ function BroomCat() {
 function PetSuri() {
   const [hearts, setHearts] = useState<{ id: number; x: number; e: string }[]>([]);
   const [pets, setPets] = useState(0);
-  const pet = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const pet = (e: import("react").MouseEvent<HTMLButtonElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     const id = Date.now() + Math.random();
-    const emoji = ["💜", "🧡", "😻", "✨"][Math.floor(Math.random() * 4)];
+    const emoji: string = ["💜", "🧡", "😻", "✨"][Math.floor(Math.random() * 4)] ?? "💜";
     setHearts((h) => [...h, { id, x: e.clientX - r.left, e: emoji }]);
     setPets((p) => p + 1);
     setTimeout(() => setHearts((h) => h.filter((x) => x.id !== id)), 1400);
